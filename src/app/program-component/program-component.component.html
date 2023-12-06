@@ -1,0 +1,114 @@
+
+<div id="data-entry" >
+    <div class="main-block"   *ngIf = "!printable && !UpdateInfo">
+        
+        <form action="/" [formGroup] = "myForm">
+          <div class="title">
+            <i class="fas fa-pencil-alt"></i> 
+            <h2>Program</h2>
+          </div>
+          <div class="info">
+            <input class="fname" type="text" placeholder="Program ID" formControlName="progid" required>
+            <input type="text" placeholder="Program Full Name" formControlName="progfullname" required>
+            <input type="text" placeholder="Program Short Name" formControlName="progshortname" required>
+            <select name="" [(ngModel)] = "selectedCollege" formControlName="progcollid" id="college" >
+              <option [ngValue]="null"><b>----------- Select College -----------</b></option>
+              <option *ngFor="let college of collegeArr " [ngValue]="college">
+                  {{ college.collfullname }}
+              </option>
+          </select>
+          <select [(ngModel)]="selectedDepartment" formControlName="progcolldeptid" id="program" >
+            <option [ngValue]="null"><b>-------- Select Department --------</b></option> 
+            <ng-container *ngIf="selectedCollege != null">
+               <ng-container *ngFor="let department of DepartmentArr">
+                   <option *ngIf="selectedCollege.collid == department.deptcollid" [ngValue]="department">
+                       {{ department.deptfullname }}
+                   </option>
+               </ng-container>
+            </ng-container>
+            <!-- the data that is being inputted using the [ngvalue] is not a string 
+            it means that [ngvalue]='null', it will display what is inside the option tag -->
+        </select>
+        </div>
+        <div class="buts"> 
+            <span style="margin-right: 120px"></span>
+            <button class="studEntry" (click)="addProgram()" [disabled]="!myForm.valid">Save</button>
+            <span style="margin-right: 10px;"></span>
+            <button class="studEntry btn-info" (click)="printStudentEntries(); printStudentInput()">Print</button>
+        </div>
+        </form>
+    </div> 
+  
+     
+    <div *ngIf="printable" id="studentinfos">
+        <table class="table" id="table-listing" >
+            <thead class="table-light">   
+             <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Short Name</th>
+                <th>CollID</th>
+                <th>DeptID</th>
+                <th></th>
+             </tr> 
+            </thead>
+            <tbody>
+             <tr *ngFor="let program of programArr"> 
+                 <td>{{ program.progid }}</td>
+                 <td>{{ program.progfullname }}</td>
+                 <td>{{ program.progshortname }}</td>
+                 <td>{{ program.progcollid }}</td>
+                 <td>{{ program.progcolldeptid }}</td>
+                 <td> <div> <button class="btn" (click)="deleteProgram(program.progid)"><i class="fa fa-trash"></i></button>
+                    <button (click)="printStudentEntries(); printStudentUpdate(); editProgram(program) ">Edit</button></div></td>
+             </tr>
+            </tbody>
+        </table>  
+    </div> 
+
+    <!-- ig next button, UpdateCollegeInfoFalse -->
+    <div *ngIf="UpdateInfo && !printable && !entries" id="update" class="not-main">
+        
+            
+            <form action="/" [formGroup] = "myForm" class="formUpdate">
+              <div class="title">
+                <i class="fas fa-pencil-alt"></i> 
+                <h2>Update Information</h2>
+              </div>
+              <div class="info">
+                <input class="fname" type="text" placeholder="Program ID" formControlName="progid" required>
+                <input type="text" placeholder="Program Full Name" formControlName="progfullname" required>
+                <input type="text" placeholder="Program Short Name" formControlName="progshortname" required>
+                <select name="" [(ngModel)] = "selectedCollege" formControlName="progcollid" id="college" >
+                  <option [ngValue]="null"><b>----------- Select College -----------</b></option>
+                  <option *ngFor="let college of collegeArr " [ngValue]="college">
+                      {{ college.collfullname }}
+                  </option>
+              </select>
+              <select name="" [(ngModel)]="selectedProgram" formControlName="progcolldeptid" id="program" >
+                <option [ngValue]="null">---------- Select Department ----------</option> 
+                <ng-container *ngIf="selectedCollege != null">
+                   <ng-container *ngFor="let department of DepartmentArr">
+                       <option *ngIf="selectedCollege.collid == department.deptcollid" [ngValue]="department">
+                           {{ department.deptfullname }}
+                       </option>
+                   </ng-container>
+                </ng-container>
+                <!-- the data that is being inputted using the [ngvalue] is not a string 
+                it means that [ngvalue]='null', it will display what is inside the option tag -->
+            </select>
+            
+              </div>
+              <button type="submit" (click)="updateProgram()" [disabled]="!myForm.valid">Update</button>
+            </form>
+</div>
+
+<!-- <button>Back</button>
+<button>Next</button> -->
+
+
+
+
+
+
+

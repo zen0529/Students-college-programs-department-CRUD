@@ -1,0 +1,76 @@
+
+    <div id="data-entry" >
+        <div class="main-block"   *ngIf = "!printable && !UpdateCollegeInfo">
+            
+            <form action="/" [formGroup] = "myForm">
+              <div class="title">
+                <i class="fas fa-pencil-alt"></i> 
+                <h2>College</h2>
+              </div>
+              <div class="info">
+                <input class="fname" type="text" placeholder="College ID" formControlName="collid">
+                <input type="text" placeholder="College Full Name" formControlName="collfullname">
+                <input type="text" placeholder="College Short Name" formControlName="collshortname">
+            </div>
+            <div class="buts"> <!-- Fix this line: Change "div" to "class" -->
+                <span style="margin-right: 120px"></span>
+                <button class="studEntry" (click)="addCollege()">Save</button>
+                <span style="margin-right: 10px;"></span>
+                <button class="studEntry btn-info" (click)="printStudentEntries(); printStudentInput()">Print</button>
+            </div>
+            </form>
+        </div> 
+      
+         
+        <div *ngIf="printable" id="studentinfos">
+            <table class="table" id="table-listing" >
+                <thead class="table-light">   
+                 <tr>
+                    <th>College ID</th>
+                    <th>Full Name</th>
+                    <th>Short Name</th>
+                    <th></th>
+                 </tr> 
+                </thead>
+                <tbody>
+                 <tr *ngFor="let college of collegeArr"> 
+                     <td>{{ college.collid }}</td>
+                     <td>{{ college.collfullname }}</td>
+                     <td>{{ college.collshortname }}</td>
+                     <td> <div> <button class="btn" (click)="deleteCollege(college.collid)"><i class="fa fa-trash"></i></button>
+                        <button (click)="printStudentEntries(); printStudentUpdate(); editCollege(college) ">Edit</button></div></td>
+                 </tr>
+                </tbody>
+            </table>  
+        </div> 
+    
+        <!-- ig next button, UpdateCollegeInfoFalse -->
+        <div *ngIf="UpdateCollegeInfo && !printable && !entries" id="update" class="not-main">
+            
+                
+                <form action="/" [formGroup] = "myForm" class="formUpdate">
+                  <div class="title">
+                    <i class="fas fa-pencil-alt"></i> 
+                    <h2>Update Information</h2>
+                  </div>
+                  <div class="info">
+                    <input class="fname" type="text"  placeholder="College ID" formControlName="collid">
+                    <input type="text" placeholder="College Full Name" formControlName="collfullname">
+                    <input type="text" placeholder="College Short Name" formControlName="collshortname">
+                  </div>
+                  
+                  <button type="submit" (click)="updateCollege()">Update</button>
+                </form>
+            
+            
+    </div>
+    
+    <!-- <button>Back</button>
+    <button>Next</button> -->
+
+
+
+  
+
+
+

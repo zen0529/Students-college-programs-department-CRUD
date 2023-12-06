@@ -1,0 +1,9 @@
+saving name:
+
+studID
+studFirstName
+studMidName
+studLastName
+studCollId
+studProgID
+studYear

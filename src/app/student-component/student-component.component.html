@@ -1,0 +1,138 @@
+
+    
+    <div id="data-entry" >
+        <div class="main-block"   *ngIf = "!printable && !UpdateStudentInfo">
+            
+            <form action="/" [formGroup] = "myForm">
+              <div class="title">
+                <i class="fas fa-pencil-alt"></i> 
+                <h2>Student Registration </h2>
+              </div>
+              <div class="info">
+               
+                <input class="fname" type="text"  placeholder="Student ID" formControlName="studid" required>
+                <input type="text" placeholder="First Name" formControlName="studfirstname" required>
+                <input type="text" placeholder="Middle Name" formControlName="studmidname">
+                <input type="text"  placeholder="Last Name" formControlName="studlastname" required>
+
+                 
+                <select name="" [(ngModel)] = "selectedCollege" formControlName="studcollege" id="college" >
+                    <option [ngValue]="null"><b> Select College </b></option>
+                    <option *ngFor="let college of collegeArr " [ngValue]="college">
+                        {{ college.collfullname }}
+                    </option>
+                </select>
+                
+                <select name="" [(ngModel)]="selectedProgram" formControlName="studprogram" id="program" >
+                    <option [ngValue]="null"> Select Program </option> 
+                    <ng-container *ngIf="selectedCollege != null">
+                       <ng-container *ngFor="let program of programArr">
+                           <option *ngIf="selectedCollege.collid == program.progcollid" [ngValue]="program">
+                               {{ program.progfullname }}
+                           </option>
+                       </ng-container>
+                    </ng-container>
+                    <!-- the data that is being inputted using the [ngvalue] is not a string 
+                    it means that [ngvalue]='null', it will display what is inside the option tag -->
+                </select>
+                <input type="text" placeholder="Year" formControlName="studyear">
+              </div>
+              
+              <div div="buts">
+                <span style="margin-right: 120px"></span>
+                <button  class="studEntry" (click) = "addStudents()" [disabled]="!myForm.valid">
+                    Save
+                </button >
+                
+                <span style="margin-right: 10px;"></span>
+                <button  class="studEntry btn-info" (click) = "printStudentEntries(); printStudentInput()" >
+                    Print
+                </button>
+              </div>
+           
+    
+            </form>
+          </div> 
+
+        
+         
+        <div *ngIf="printable" id="studentinfos">
+            <table class="table" id="table-listing" >
+                <thead class="table-light">   
+                 <tr>
+                    <th>ID</th>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Middle Initial</th>
+                    <th>Program Enrolled</th>
+                    <th>College</th>
+                    <th>Year</th>
+                    <th></th>
+                 </tr> 
+                </thead>
+                <tbody>
+                 <tr *ngFor="let student of StudentsArr"> 
+                     <td>{{ student.studid }}</td>
+                     <td>{{ student.studlastname }}</td>
+                     <td>{{ student.studfirstname }}</td>
+                     <td>{{ student.studmidname.substr(0,1)+'.' }}</td>
+                     <td>{{ student.studprogid }}</td>
+                     <td>{{ student.studcollid }}</td>
+                     <td>{{ student.studyear }}</td>
+                     <td> <div> <button id="btn" class="btn" (click)="deleteStudent(student.studid)"><i class="fa fa-trash"></i></button>
+                        <button (click)="printStudentEntries(); printStudentUpdate(); editStudent(student) ">Edit</button></div></td>
+                     
+                    
+                 </tr>
+                </tbody>
+            </table>  
+        </div> 
+    
+        <!-- ig next button, updateStudentInfoFalse -->
+        <div *ngIf="UpdateStudentInfo && !printable && !entries" id="update" class="not-main">
+            
+                
+                <form action="/" [formGroup] = "myForm" class="formUpdate">
+                  <div class="title">
+                    <i class="fas fa-pencil-alt"></i> 
+                    <h2>Update Information</h2>
+                  </div>
+                  <div class="info">
+                    <input class="fname" type="text" name="name" formControlName="studid" placeholder="Student ID" required>
+                    <input type="text" name="name" placeholder="First Name" formControlName="studfirstname" required >
+                    <input type="text" name="name" placeholder="Middle Name" formControlName="studmidname" required>
+                    <input type="text" name="name" placeholder="Last Name" formControlName="studlastname" required> 
+                    <select name="" [(ngModel)] = "selectedCollege" formControlName="studcollege" id="college" >
+                        <option *ngFor="let college of collegeArr " [ngValue]="college">
+                            {{ college.collfullname }}
+                        </option>
+                    </select>   
+                    <select name="" [(ngModel)]="selectedProgram" formControlName="studprogram" id="program" >
+                        <ng-container *ngIf="selectedCollege != null">
+                           <ng-container *ngFor="let program of programArr">
+                               <option *ngIf="selectedCollege.collid == program.progcollid" [ngValue]="program">
+                                   {{ program.progfullname }}
+                               </option>
+                           </ng-container>
+                        </ng-container>
+                        <!-- the data that is being inputted using the [ngvalue] is not a string -->
+                        <!-- it means that [ngvalue]='null', it will display what is inside the option tag -->
+                    </select>
+                    <input type="text" name="name" placeholder="Year" formControlName="studyear" >
+                  </div>
+                  
+                  <button type="submit" (click)="updateStudent()" [disabled]="!myForm.valid">Update</button>
+                </form>
+            
+            
+    </div>
+    
+    <!-- <button>Back</button>
+    <button>Next</button> -->
+
+
+
+  
+
+
+

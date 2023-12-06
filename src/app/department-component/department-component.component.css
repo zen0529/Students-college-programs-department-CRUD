@@ -1,0 +1,230 @@
+
+.navbar{
+    display: flex;
+    font-family: helvetica;
+}
+
+#nav{
+    width: 50rem;
+}
+
+input.ng-invalid.ng-touched{
+    border: 2px red solid;
+}
+
+select.ng-invalid.ng-touched{
+    border: 2px red solid;
+}
+#data-entry {
+  
+    font-family: helvetica;
+    font-size: 16px;
+    font-size: 2.0rem;
+    align-items: center;
+    background: linear-gradient(rgba(196, 102, 0, 0.6), rgba(155, 89, 182, 0.6));
+    
+    /* Set a minimum height to ensure it's at least 100% of the viewport height */
+    min-height: 100vh;
+}
+
+#table-entry {
+    margin: 0 auto;
+}
+
+#table-entry th {
+    text-align: left;
+}
+
+#studentinfos {
+    display: flex; 
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+#table-listing {
+    width: 80%;
+    font-size: 1.5rem;
+}
+
+#table-listing tr:nth-child(2n) {
+    background-color: burlywood;
+    color:midnightblue;
+}
+
+#table-listing tr > th {
+     background: 
+    linear-gradient(rgba(196, 102, 0, 0.6), rgba(155, 89, 182, 0.6));;
+    color: white; 
+}
+
+
+input[type=text], select {
+    font-family: helvetica;
+    font-size: 1.4rem;    
+    height: 3rem;
+    width: 35rem;
+    border-radius: 5px;
+}
+
+select {
+    border: 1px solid rgb(253, 253, 253);
+}
+
+select option:nth-child(1){
+    text-align: center;
+    font-weight: bold;
+}
+
+option {
+    font-family: helvetica;
+    font-size: 2rem;
+}
+
+.button {
+    margin-left: 5px;
+    margin-right: 5px;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 1.5rem;
+    border: 1px solid transparent;
+    line-height: 1.42857143;
+}
+
+.btn{
+    background-color: rgb(202, 50, 50);
+    
+}
+.btn-primary {
+    background-color: dodgerblue;
+    color: white;
+}
+
+.btn-info {
+    background-color: #27AE60;
+    color: white;
+}
+
+.btn-danger {
+    background-color: crimson;
+    color: white;
+}
+#update{
+    width: 20%;
+    position: relative;
+    left: 40%;
+}
+div{
+    margin-bottom: 2vh;
+}
+
+
+
+  h1, h2 {
+  text-transform: uppercase;
+  font-weight: 400;
+  }
+  h2 {
+  margin: 0 0 0 8px;
+  }
+ 
+  .main-block {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 25px;
+  /* background: 
+  linear-gradient(rgba(196, 102, 0, 0.6), rgba(155, 89, 182, 0.6)); */
+  }
+
+  .not-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 25px;
+  
+  }
+  .left-part, form {
+  padding: 25px;
+  }
+  .left-part {
+  text-align: center;
+  }
+  .fa-graduation-cap {
+  font-size: 72px;
+  }
+  form {
+  background: white; 
+  }
+  .title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  }
+  .info {
+  display: flex;
+  flex-direction: column;
+  }
+  input, select {
+  padding: 5px;
+  margin-bottom: 30px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid black;
+  }
+  input::placeholder {
+    color: rgb(117, 110, 110);
+  }
+  option:focus {
+  border: none;
+  }
+  option {
+  background: rgb(255, 255, 255); 
+  border: none;
+  }
+  .btn-item, button {
+  padding: 10px 5px;
+  margin-top: 20px;
+  border-radius: 5px; 
+  border: none;
+  background: #26a9e0; 
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 400;
+  color: #fff;
+  }
+  .btn-item {
+  display: inline-block;
+  margin: 20px 5px 0;
+  }
+  button {
+  width: 100%;
+  }
+  button:hover, .btn-item:hover {
+  background: #85d6de;
+  }
+  @media (min-width: 568px) {
+  html, body {
+  height: 100%;
+  }
+  .main-block {
+  
+  height: calc(100% - 50px);
+  }
+  .left-part, form {
+  flex: 1;
+  height: auto;
+  }
+  }
+.studEntry  {
+  width: 20vh;
+}
+
+.formUpdate{
+    border: 1px solid black;
+}
+

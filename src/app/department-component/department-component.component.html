@@ -1,0 +1,90 @@
+
+<div id="data-entry" >
+    <div class="main-block"   *ngIf = "!printable && !UpdateCollegeInfo">
+        
+        <form action="/" [formGroup] = "myForm">
+          <div class="title">
+            <i class="fas fa-pencil-alt"></i> 
+            <h2>Department</h2>
+          </div>
+          <div class="info">
+            <input class="fname" type="text" placeholder="Department ID" formControlName="deptid" required>
+            <input type="text" placeholder="Department Full Name" formControlName="deptfullname" required>
+            <input type="text" placeholder="Department Short Name" formControlName="deptshortname" required>
+            <select name="" [(ngModel)] = "selectedCollege" formControlName="deptcollid" id="college" >
+              <option [ngValue]="null" ><b>----------- Select College -----------</b></option>
+              <option *ngFor="let college of collegeArr " [ngValue]="college">
+                  {{ college.collfullname }}
+              </option>
+          </select>
+        </div>
+        <div class="buts"> <!-- Fix this line: Change "div" to "class" -->
+            <span style="margin-right: 120px"></span>
+            <button class="studEntry" (click)="addDepartment()" [disabled]="!myForm.valid">Save</button>
+            <span style="margin-right: 10px;"></span>
+            <button class="studEntry btn-info" (click)="printEntries(); printInput()">Print</button>
+        </div>
+        </form>
+    </div> 
+  
+     
+    <div *ngIf="printable" id="studentinfos">
+        <table class="table" id="table-listing" >
+            <thead class="table-light">   
+             <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Short Name</th>
+                <th>College</th>
+                <th></th>
+             </tr> 
+            </thead>
+            <tbody>
+             <tr *ngFor="let department of DepartmentArr"> 
+                 <td>{{ department.deptid }}</td>
+                 <td>{{ department.deptfullname }}</td>
+                 <td>{{ department.deptshortname }}</td>
+                 <td>{{ department.deptcollid }}</td>
+                 <td> <div> <button class="btn" (click)="deleteDepartment(department.deptid)"><i class="fa fa-trash"></i></button>
+                    <button (click)="printEntries(); printUpdate(); editDepartment(department) ">Edit</button></div></td>
+             </tr>
+            </tbody>
+        </table>  
+    </div> 
+
+    <!-- ig next button, UpdateCollegeInfoFalse -->
+    <div *ngIf="UpdateCollegeInfo && !printable && !entries" id="update" class="not-main">
+        
+            
+            <form action="/" [formGroup] = "myForm" class="formUpdate">
+              <div class="title">
+                <i class="fas fa-pencil-alt"></i> 
+                <h2>Update Information</h2>
+              </div>
+              <div class="info">
+                <input class="fname" type="text" placeholder="Department ID" formControlName="deptid" required>
+                <input type="text" placeholder="Department Full Name" formControlName="deptfullname" required>
+                <input type="text" placeholder="Department Short Name" formControlName="deptshortname" required>
+                <select name="" [(ngModel)] = "selectedCollege" formControlName="deptcollid" id="college" >
+                  <option [ngValue]="null"><b>----------- Select College -----------</b></option>
+                  <option *ngFor="let college of collegeArr " [ngValue]="college">  
+                      {{ college.collfullname }}
+                  </option>
+              </select>
+              </div>
+              
+              <button type="submit" (click)="updateDepartment()" [disabled]="!myForm.valid">Update</button>
+            </form>
+        
+        
+</div>
+
+<!-- <button>Back</button>
+<button>Next</button> -->
+
+
+
+
+
+
+
