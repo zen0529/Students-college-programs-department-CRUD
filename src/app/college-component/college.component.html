@@ -14,7 +14,7 @@
             </div>
             <div class="buts"> <!-- Fix this line: Change "div" to "class" -->
                 <span style="margin-right: 120px"></span>
-                <button class="studEntry" (click)="addCollege()">Save</button>
+                <button class="studEntry" (click)="addCollege()" [disabled]="!myForm.valid">Save</button>
                 <span style="margin-right: 10px;"></span>
                 <button class="studEntry btn-info" (click)="printStudentEntries(); printStudentInput()">Print</button>
             </div>

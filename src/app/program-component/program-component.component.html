@@ -85,7 +85,7 @@
                       {{ college.collfullname }}
                   </option>
               </select>
-              <select name="" [(ngModel)]="selectedProgram" formControlName="progcolldeptid" id="program" >
+              <select name="" [(ngModel)]="selectedDepartment" formControlName="progcolldeptid" id="program" >
                 <option [ngValue]="null">---------- Select Department ----------</option> 
                 <ng-container *ngIf="selectedCollege != null">
                    <ng-container *ngFor="let department of DepartmentArr">

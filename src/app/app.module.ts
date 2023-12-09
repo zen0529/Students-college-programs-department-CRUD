@@ -20,7 +20,6 @@ import { DepartmentComponentComponent } from './department-component/department-
     CollegeComponent,
     ProgramComponentComponent,
     DepartmentComponentComponent
-   // routingComponents
   ],
   imports: [
     BrowserModule,

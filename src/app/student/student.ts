@@ -1,11 +1,11 @@
 export class Students { 
 
-     studid: string = ' ';
+     studid: string = '';
      studfirstname: string = '';
      studlastname: string = '';
      studmidname: string = '';
      studprogid : number = null;
      studcollid : number = null;
-     studyear: string = ' ';
+     studyear: string = '';
     
 }

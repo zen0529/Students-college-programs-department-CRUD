@@ -1,11 +1,9 @@
-import { Component, OnInit} from '@angular/core';
-import { Students } from '../student/student'
+import { Component, OnInit } from '@angular/core';
 import { CrudService } from '../service/crud.service';
 import { Colleges } from '../college/colleges';
-import { Programs } from '../programs/programs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Department } from '../department/department';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-department-component',
@@ -14,173 +12,181 @@ import { Department } from '../department/department';
 })
 export class DepartmentComponentComponent {
   selectedCollege: Colleges = null;
+  collegeObj: Colleges = null;
+  collegeArr: Colleges[] = [];
 
-   StudentsObj : Students = null;
-   StudentsArr : Students[] = [];
+  DepartmentObj: Department = new Department();
+  DepartmentArr: Department[] = [];
 
-   collegeObj: Colleges = null;
-   collegeArr: Colleges[] = [];
+  UpdateCollegeInfo: boolean = false;
+  printable: boolean = false;
+  entries: boolean = true;
+  myForm: FormGroup;
+  constructor(private crudService: CrudService, private fb: FormBuilder) { }
+  ngOnInit(): void {
+    this.myForm = this.fb.group({
+      deptid: [null, [Validators.required, Validators.pattern(/^[0-9]+$/)]],
+      deptfullname: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      deptshortname: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      deptcollid: [null, [Validators.required]],
+    })
+    this.myForm.valueChanges.subscribe(console.log);
+    this.getAllDeparment();
+    this.getAllCollege();
+  }
+  addDepartment() {
+    const data = {
+      deptid: this.myForm.get('deptid').value,
+      deptfullname: this.myForm.get('deptfullname').value,
+      deptshortname: this.myForm.get('deptshortname').value,
+      deptcollid: this.selectedCollege.collid,
+    };
 
-   programObj : Programs = null;
-   programArr : Programs[] = [];
+    console.log(data);
+    this.crudService.addDepartment(data).subscribe(
+      (response) => {
+        console.log('POST request successful', response);
+        Swal.fire({
+          title: "Success!",
+          text: "New Department added.",
+          icon: "success"
+        });
+        this.clearEntries()
+      }, (error) => {
+        console.error('Error in POST request', error);
+        Swal.fire({
+          icon: "error",
+          title: "Invalid",
+          text: "Check your inputs",
+        });
+      }
+    );
+  }
+  deleteDepartment(id: any): void {
+    this.crudService.removeDepartment(id).subscribe(
+      (response) => {
+        console.log('DELETE request successful', response);
+        this.getAllDeparment();
+        Swal.fire({
+          title: "Success!",
+          text: "Deleted Successfully",
+          icon: "success"
+        });
+        // Handle success, e.g., notify the user or update the UI
+      },
+      (error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Invalid",
+          text: "This department cannot be deleted because it is referenced by other records.",
+        });
+        console.error('Error in DELETE request', error);
 
-   DepartmentObj : Department = new Department();
-   DepartmentArr : Department[] = [];
+        // Handle error, e.g., show an error message to the user
+      }
+    );
+  }
 
-   UpdateCollegeInfo: boolean = false;
-   printable: boolean = false;
-   entries: boolean = true;
+  getAllDeparment() {
+    this.crudService.getAllDepartments().subscribe(res => {
+      this.DepartmentArr = res;
+    }, err => {
+      alert("Unable to get list of Colleges");
+    })
+  }
 
-   myForm: FormGroup;
-    constructor (private crudService : CrudService, private fb: FormBuilder) {
+
+  public printEntries(): void {
+    if (this.printable == true) {
+      this.printable = false
 
     }
-    ngOnInit(): void {
-  
-      this.myForm = this.fb.group({
-        deptid:  [null, [Validators.required,Validators.pattern(/^[0-9]+$/)]],
-        deptfullname: [ '',[Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
-        deptshortname: [ '',[Validators.required, Validators.pattern(/^[a-zA-Z]+$/)]],
-        deptcollid: [ null,[Validators.required]],
-      })
-
-      this.myForm.valueChanges.subscribe(console.log);
+    else {
       this.getAllDeparment();
-      this.getAllCollege();
+      this.printable = true
+
     }
+  }
+  public printUpdate(): void {
 
-    
-      addDepartment() {
-         const data = {
-          deptid: this.myForm.get('deptid').value,
-          deptfullname: this.myForm.get('deptfullname').value,
-          deptshortname: this.myForm.get('deptshortname').value,
-          deptcollid: this.selectedCollege.collid,
-         };
-     
-         console.log(data);
-        this.crudService.addDepartment(data).subscribe(
-          (response) => {
+    if (this.UpdateCollegeInfo == true) {
+      this.UpdateCollegeInfo = false
+    }
+    else this.UpdateCollegeInfo = true;
+  }
+  public printInput(): void {
 
-            this.ngOnInit;
-            console.log('POST request successful', response);
-          },
-          (error) => {
-            console.error('Error in POST request', error);
-          }
-        );
-      }
-      
-     
-    
-      deleteDepartment(id: any): void {
-        this.crudService.removeDepartment(id).subscribe(
-          (response) => {
-            console.log('DELETE request successful', response);
-            // Handle success, e.g., notify the user or update the UI
-          },
-          (error) => {
-            console.error('Error in DELETE request', error);
-            // Handle error, e.g., show an error message to the user
-          }
-        );
-      }
-    
-      getAllDeparment() {
-        this.crudService.getAllDepartments().subscribe(res => {
-          this.DepartmentArr = res;
-          for (let i = 0; i < this.DepartmentArr.length; i++) {
-            console.log(this.DepartmentArr[i]); 
-          }
-        }, err => {
-          alert("Unable to get list of Colleges");
-        })
-      }
-
-      
-      public printEntries(): void {
-        if(this.printable == true){
-          this.printable = false
-          
-        }
-        else this.printable = true
-        this.ngOnInit;
-     }
-     public printUpdate(): void {
-      
-      if(this.UpdateCollegeInfo == true){
-        this.UpdateCollegeInfo = false
-      }
-      else this.UpdateCollegeInfo = true;
-   }
-   public printInput(): void {
-      
-    if(this.entries == true){
+    if (this.entries == true) {
       this.entries = false
     }
     else this.entries = true;
-    this.ngOnInit;
- }
+  }
 
 
- editDepartment(data: any): void {
-  // Assuming student.studid is the ID of the selected student
-  const DepartmentId = data.deptid;
-  console.log(DepartmentId);
-  this.crudService.getDepartmentInfo(DepartmentId).subscribe(
-    (Info) => {
-      // Handle the received studentInfo as needed
-       console.log(Info);
-       this.DepartmentObj = Info;
-       console.log(this.DepartmentObj)
-       this.myForm.patchValue({
-        deptid: this.DepartmentObj.deptid,
-        deptfullname: this.DepartmentObj.deptfullname,
-        deptshortname: this.DepartmentObj.deptshortname,
-        deptcollid: selectedCollege
-      }) 
-      
-      var selectedCollege = this.collegeArr.find(college => college.collid === this.DepartmentObj.deptcollid);
+  editDepartment(data: any): void {
+    const DepartmentId = data.deptid;
+    console.log(DepartmentId);
+    this.crudService.getDepartmentInfo(DepartmentId).subscribe(
+      (Info) => {
+        console.log(Info);
+        this.DepartmentObj = Info;
+        console.log(this.DepartmentObj)
+        this.myForm = this.fb.group({
+          deptid: [{ value: this.DepartmentObj.deptid, disabled: true }],
+          deptfullname: this.DepartmentObj.deptfullname,
+          deptshortname: this.DepartmentObj.deptshortname,
+          deptcollid: selectedCollege
+        })
+        var selectedCollege = this.collegeArr.find(college => college.collid === this.DepartmentObj.deptcollid);
+        console.log(selectedCollege);
+        this.selectedCollege = selectedCollege;
+      },
+      (error) => {
+        console.error('Error fetching student info', error);
+      }
+    );
+  }
 
-      console.log(selectedCollege);
+  updateDepartment(): void {
 
-      this.selectedCollege = selectedCollege;
-    },
-    (error) => {
-      console.error('Error fetching student info', error);
-    }
-  );
-}
+    const data = {
+      deptid: this.myForm.get('deptid').value,
+      deptfullname: this.myForm.get('deptfullname').value,
+      deptshortname: this.myForm.get('deptshortname').value,
+      deptcollid: this.selectedCollege.collid,
+    };
+    console.log(data);
+    // Call the method to update student information
+    this.crudService.updateDepartmentInfo(data).subscribe(
+      (response) => {
+        // Handle the response as needed
+        console.log(response);
+        Swal.fire({
+          title: "Success!",
+          text: "Department Information Updated.",
+          icon: "success"
+        });
+      },
+      (error) => {
+        console.error('Error updating student info', error);
+        Swal.fire({
+          icon: "error",
+          title: "Invalid",
+          text: "Check your inputs",
+        });
+      }
+    );
+  }
 
-updateDepartment(): void {
+  getAllCollege() {
+    this.crudService.getAllCollege().subscribe(res => {
+      this.collegeArr = res;
+    }, err => {
+      alert("Unable to get list of Colleges");
+    })
+  }
 
-  const data = {
-    deptid: this.myForm.get('deptid').value,
-    deptfullname: this.myForm.get('deptfullname').value,
-    deptshortname: this.myForm.get('deptshortname').value,
-    deptcollid: this.selectedCollege.collid,
-   };
-  console.log(data);
-  // Call the method to update student information
-  this.crudService.updateDepartmentInfo(data).subscribe(
-    (response) => {
-      // Handle the response as needed
-      console.log(response);
-    },
-    (error) => {
-      console.error('Error updating student info', error);
-    }
-  );
-}
-
-getAllCollege() {
-  this.crudService.getAllCollege().subscribe(res => {
-    this.collegeArr = res;
-    for (let i = 0; i < this.collegeArr.length; i++) {
-      console.log(this.collegeArr[i]); 
-    }
-  }, err => {
-    alert("Unable to get list of Colleges");
-  })
-}
+  public clearEntries(): void {
+    this.myForm.reset();
+  }
 }
